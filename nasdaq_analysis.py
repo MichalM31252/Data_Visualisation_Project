@@ -62,7 +62,16 @@ def fetch_stock_data(tickers, start_date, end_date):
     for ticker in tickers:
         try:
             print(f"Fetching data for {ticker}...", end=" ")
-            data = yf.download(ticker, start=start_date, end=end_date, progress=False)
+
+            data = yf.download(
+                ticker,
+                start=start_date,
+                end=end_date,
+                auto_adjust=False,           # so Adj Close exists
+                multi_level_index=False,     # avoid MultiIndex columns
+                progress=False
+            )
+
             stock_data[ticker] = data
             print(f"✓ {len(data)} records")
         except Exception as e:
